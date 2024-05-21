@@ -31,10 +31,10 @@ class RepoListAdapter(
     class ViewHolder(private val binding : RepositoryItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(searchItemInfo: Items,  repoItemListener: Listener) {
             val context = binding.root.context
-            binding.id.text = searchItemInfo.id.toString()
-            binding.name.text = searchItemInfo.name.toString()
-            binding.owner.text =  searchItemInfo.owner?.login.toString()
-            binding.description.text = searchItemInfo.description.toString()
+            binding.id.text = "ID: " +searchItemInfo.id.toString()
+            binding.name.text = "NAME: "+ searchItemInfo.name.toString()
+            binding.owner.text =  "OWNER: "+searchItemInfo.owner?.login.toString()
+            binding.description.text = "DESCRIPTION: "+searchItemInfo.description.toString()
             binding.root.setOnClickListener {
                 repoItemListener.onInvoiceSelected(searchItemInfo)
             }

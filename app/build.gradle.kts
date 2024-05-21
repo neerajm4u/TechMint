@@ -79,6 +79,8 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation("com.google.code.gson:gson:2.10")
 
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.13.0")
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // viewModelScope
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")

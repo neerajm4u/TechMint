@@ -1,11 +1,13 @@
 package com.example.techmint.network
 
+import com.example.techmint.model.ContributorResponse
 import com.example.techmint.model.RepositoryInfoDetails
 import com.example.techmint.model.SearchResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface ServiceApi {
 
@@ -13,8 +15,8 @@ interface ServiceApi {
      fun searchReposAsynch(@Query("q") search: String ) : Deferred<SearchResponse>
 
      //repos/notJust-dev/TheMovieApp
-     @GET("/repos/{user}/{repo}")
-     fun getRepositoryDetailAsynch (@Path("user")  user:String , @Path("repo") repo:String) : Deferred<RepositoryInfoDetails>
+     @GET
+     fun getContributorAsynch(@Url url:String ) : Deferred<ArrayList<ContributorResponse>>
 
 
 

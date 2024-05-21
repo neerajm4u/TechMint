@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TechMint</string>
+    <string name="u_project_link_u"> <u>Project Link</u> </string>
 </resources>
