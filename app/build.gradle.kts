@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+
 }
 
 android {
@@ -30,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -42,4 +50,37 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.constraintlayout:constraintlayout-core:1.0.4")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+
+
+
+
+    implementation("com.google.android.material:material:1.9.0")
+
+
+
+    // Network
+    val retrofitVersion = "2.9.0"
+    val loggingVersion = "4.3.1"
+
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.okhttp3:okhttp:$loggingVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:$loggingVersion")
+    implementation("com.localebro:okhttpprofiler:1.0.8")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation("com.google.code.gson:gson:2.10")
+
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // viewModelScope
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
 }
