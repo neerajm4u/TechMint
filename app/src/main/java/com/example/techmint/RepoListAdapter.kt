@@ -36,13 +36,13 @@ class RepoListAdapter(
             binding.owner.text =  "OWNER: "+searchItemInfo.owner?.login.toString()
             binding.description.text = "DESCRIPTION: "+searchItemInfo.description.toString()
             binding.root.setOnClickListener {
-                repoItemListener.onInvoiceSelected(searchItemInfo)
+                repoItemListener.onRepoItemSelected(searchItemInfo)
             }
         }
     }
 
     interface Listener {
-        fun onInvoiceSelected(item : Items)
+        fun onRepoItemSelected(item : Items)
     }
 
 

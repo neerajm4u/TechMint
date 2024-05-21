@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
     @SerializedName("") var contributorResponse : ArrayList<ContributorItem>  = arrayListOf(),
 
         )*/
-data class ContributorResponse (
+data class ContributorsListResponse (
 
     @SerializedName("login"               ) var login             : String?  = null,
     @SerializedName("id"                  ) var id                : Int?     = null,

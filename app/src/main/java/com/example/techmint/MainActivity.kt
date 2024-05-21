@@ -14,8 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.techmint.databinding.ActivityMainBinding
+import com.example.techmint.databinding.ContributorRepositoryListBinding
 import com.example.techmint.databinding.RepoDetailFragmentBinding
-import com.example.techmint.model.ContributorResponse
+import com.example.techmint.model.ContributorRepositoryListItem
+import com.example.techmint.model.ContributorsListResponse
 import com.example.techmint.model.Items
 import com.example.techmint.model.SearchResponse
 import com.example.techmint.network.RetrofitInstance
@@ -23,11 +25,11 @@ import com.example.techmint.repository.Repository
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonSyntaxException
 import com.rebeltt.app.grn.adapter.ContributorListAdapter
+import com.rebeltt.app.grn.adapter.ContributorRepositoryListAdapter
 import com.rebeltt.app.grn.adapter.RepoListAdapter
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.handleCoroutineException
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -81,44 +83,36 @@ class MainActivity : AppCompatActivity() , RepoListAdapter.Listener , Contributo
                 }
             }
             try {
-                    lifecycleScope.launch(Dispatchers.IO + handler) {
+                lifecycleScope.launch(Dispatchers.IO + handler) {
 
-                            response = repository.searchRepo(binding.search.text.toString()).await()
-                            Log.d("Neeraj", binding.search.text.toString())
-                            Log.d("Neeraj", "  item ${response.items.size}")
-                            Log.d("Neeraj" , response.totalCount.toString())
-                            runOnUiThread{
-                                repoListAdapter.swapData(response.items)
-                                Log.d("Neeraj" , response.totalCount.toString())
-                            }
+                    response = repository.searchRepo(binding.search.text.toString()).await()
+                    Log.d("Neeraj", binding.search.text.toString())
+                    Log.d("Neeraj", "  item ${response.items.size}")
+                    Log.d("Neeraj", response.totalCount.toString())
+                    runOnUiThread {
+                        repoListAdapter.swapData(response.items)
+                        Log.d("Neeraj", response.totalCount.toString())
                     }
+                }
 
-            }
-            catch ( exception : IllegalStateException)
-            {
+            } catch (exception: IllegalStateException) {
                 Log.d("Neeraj", "selected item $exception")
-            }
-            catch(exc: JsonSyntaxException){
+            } catch (exc: JsonSyntaxException) {
                 Log.d("Neeraj", "selected item $exc")
-            }
-            catch(exeception:HttpException){
+            } catch (exeception: HttpException) {
 
-                runOnUiThread{
-                    Toast.makeText(this@MainActivity , "Api limit exceeded 403 Nothing found!!" , Toast.LENGTH_SHORT).show()
-
-
+                runOnUiThread {
+                    Toast.makeText(this@MainActivity, "Api limit exceeded 403 Nothing found!!", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
             }
         }
-
-
-
     }
 
-     var contributorList  = MutableLiveData<ArrayList<ContributorResponse>>()
+     private var contributorList  = MutableLiveData<ArrayList<ContributorsListResponse>>()
 
-    override fun onInvoiceSelected(item: Items) {
+    override fun onRepoItemSelected(item: Items) {
 
             val repoDetail = RepoDetailFragmentBinding.inflate(layoutInflater)
             // val repoDetail = layoutInflater.inflate(R.layout.repo_detail_fragment , null)
@@ -172,7 +166,32 @@ class MainActivity : AppCompatActivity() , RepoListAdapter.Listener , Contributo
                 contributorList.postValue(list)
             }
     }
-    override fun onContributorSelected(item: ContributorResponse) {
+
+
+    private var contributorRepositoryList  = MutableLiveData<ArrayList<ContributorRepositoryListItem>>()
+
+    override fun onContributorSelected(item: ContributorsListResponse) {
         Log.d("Tag" , "selected item ")
+        val handler = CoroutineExceptionHandler { _, exception ->
+            runOnUiThread{
+                Toast.makeText(this@MainActivity , "Api limit exceeded 403 Nothing found!!" , Toast.LENGTH_SHORT).show()
+            }
+        }
+        lifecycleScope.launch(Dispatchers.IO + handler) {
+            val list = repository.getContributorRepositoryListAsynch(item.reposUrl!!).await()
+            contributorRepositoryList.postValue(list)
+        }
+        contributorRepositoryList.observe(this){
+            val bottomsheet = ContributorRepositoryListBinding.inflate(layoutInflater)
+            bottomsheet.contributorName.text = item.login.toString() + "\'s REPOSITORY LIST"
+            val adapter = ContributorRepositoryListAdapter()
+            bottomsheet.reposList.layoutManager = LinearLayoutManager(this)
+            bottomsheet.reposList.adapter = adapter
+            adapter.swapData(it)
+            val dialog = BottomSheetDialog(this)
+            dialog.setContentView(bottomsheet.root)
+            dialog.show()
+            contributorRepositoryList.removeObservers(this)
+        }
     }
 }
