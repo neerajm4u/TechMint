@@ -5,8 +5,9 @@ import com.example.techmint.model.ContributorsListResponse
 import com.example.techmint.model.SearchResponse
 import com.example.techmint.network.ServiceApi
 import kotlinx.coroutines.Deferred
+import javax.inject.Inject
 
-class Repository (private val apiService: ServiceApi ){
+class Repository @Inject constructor(private val apiService: ServiceApi ){
 
     suspend fun searchRepo(v: String): Deferred<SearchResponse>{
         return  apiService.searchReposAsynch(v)

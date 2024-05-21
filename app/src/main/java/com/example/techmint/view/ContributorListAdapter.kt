@@ -1,4 +1,4 @@
-package com.rebeltt.app.grn.adapter
+package com.example.techmint.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,6 +18,10 @@ class ContributorListAdapter(
         this.dataList.clear()
         this.dataList.addAll(list)
          notifyDataSetChanged()
+    }
+    fun clearData() {
+        this.dataList.clear()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

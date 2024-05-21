@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-android")
     id("kotlin-parcelize")
 
 }
@@ -37,6 +38,10 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -79,10 +84,24 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation("com.google.code.gson:gson:2.10")
 
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-android-compiler:2.50")
+
+// Lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // viewModelScope
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
+
+
+
     //glide
     implementation ("com.github.bumptech.glide:glide:4.13.0")
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // viewModelScope
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
+}
+kapt {
+    correctErrorTypes = true
 }

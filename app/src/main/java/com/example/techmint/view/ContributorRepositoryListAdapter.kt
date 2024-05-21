@@ -1,15 +1,10 @@
-package com.rebeltt.app.grn.adapter
+package com.example.techmint.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.techmint.R
-import com.example.techmint.databinding.ContributorRepositoryListBinding
 import com.example.techmint.databinding.ContributorRepositoryListItemBinding
-import com.example.techmint.databinding.RecyclerviewItemContributorBinding
 import com.example.techmint.model.ContributorRepositoryListItem
-import com.example.techmint.model.ContributorsListResponse
 
 
 class ContributorRepositoryListAdapter(
