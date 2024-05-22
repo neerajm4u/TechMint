@@ -31,11 +31,9 @@ import retrofit2.HttpException
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), RepoListAdapter.Listener, ContributorListAdapter.Listener {
-    lateinit var binding: ActivityMainBinding
-    lateinit var repoListAdapter: RepoListAdapter
-    lateinit var repository: Repository
-
-    val viewModel: SearchResponseViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var repoListAdapter: RepoListAdapter
+    private val viewModel: SearchResponseViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
